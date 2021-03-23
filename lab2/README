@@ -1,0 +1,111 @@
+Musat Mihai-Robert
+Grupa 341C1
+
+Problema 1
+----------
+
+Atunci cand realizez inmultirea obisnuita a matricelor, asa cum este data
+in exemplul de cod oferit, obtin urmatorii timpi atunci cand rulez cu 4 threaduri:
+
+0.002596
+0.003787
+0.005321
+0.007250
+0.003620
+
+Cand maresc chunk size la 50, si rulez tot cu 4 threaduri, am observat ca se 
+obtin performante mai bune:
+
+0.002904
+0.001601
+0.002075
+0.001635
+0.003953
+
+Daca implementez un algoritm de tip CRCW-PRAM, in care folosesc operatia de reducere,
+asa cum este prezentata in suportul de laborator, si las aceeasi parametri ca mai sus,
+obtin niste timpi chiar mai slabi decat varianta seriala:
+
+0.004684
+0.002665
+0.002755
+0.005742
+0.003629
+
+Acest lucru se poate intampla din cauza faptului ca desi intr-un ciclu de ceas, mai multe 
+threaduri citesc si scriu in locatii de memorie diferite, optimizand astfel numarul total de 
+operatii efectuate, este totusi posibil sa nu obtin o repartizare uniforma a zonelor din matrice
+prelucrate, astfel incat fiecare thread poate sa modifice o bucata de matrice care a fost deja 
+modificata de un thread anterior. Prin acest fapt, se genereaza munca suplimentara inutila din 
+partea sistemului de calcul, si timpul de obtinere a rezultatului este mai mare.
+
+Pentru a rezolva aceasta problema, m-am gandit sa reduc chunk size la 35, lucru care intr-adevar
+genereaza performante mai bune (in medie):
+
+0.000713
+0.003721
+0.000679
+0.004366
+0.000523
+
+
+Problema 2
+----------
+
+Pentru inceput, am schimbat politica de scheduling din static in dynamic si am observat 
+ca se obtin performante asemanatoare (in medie), ceea ce era oarecum de asteptat:
+
+0.003621
+0.003070
+0.003409
+0.006242
+0.007423
+
+Pe de alta parte, am obtinut o imbunatatire semnificativa a performantei atunci
+cand am schimbat politica de scheduling din static in guided, asa cum se poate
+observa si din urmatorii timpi:
+ 
+0.002986
+0.005978
+0.001246
+0.004192
+0.003810
+
+
+Problema 3
+----------
+
+Pentru a rezolva acest exercitiu, in primul rand am modificat in Makefile linia unde
+se specifica numarul de threaduri cu care sa fie rulat programul si flag-urile de compilare.
+Apoi, am adaugat directiva #pragma omp parallel private(tid) in fisierul main.c deoarece
+am observat ca programul se rula mereu cu un singur thread. Pentru a compila si rula programul,
+am folosit make run_omp care arata diferite statistici referitoare la programul de inmultire 
+a unei matrici cu un vector, precum dimensiunea matricei, memoria folosita, numarul de threaduri si 
+performanta algoritmului pe linii si respectiv coloane.
+
+
+Problema 4
+----------
+
+Pentru acest task, am adaugat politici de scheduling in fisierele mxv_row_omp.c si mxv_col_omp.c,
+astfel ca am incercat pe rand sa adaug fie scheduling static, fie dynamic, fie guided. Din punct
+de vedere al performantei obtinute, am observat ca s-a pastrat aceeasi tendinta ca si la problema 2,
+politica de scheduling guided fiind cea mai optima modalitate de impartire a matricii in zone care
+sa fie prelucrate de catre fiecare thread in parte.
+
+
+Bonus
+-----
+
+Pentru bonus, am rezolvat bug-urile din fisierele indicate in indrumarul de laborator, care nu erau
+deja rezolvate, si anume omp_bug2.c, omp_bug3.c si omp_bug6.c. Pentru bug2, problema era ca desi se
+facea suma numerelor de la 1 la 1000000, acea suma ramanea mereu 0 deoarece a fost ignorat scoping-ul
+variabilelor tid si total, care in acest context erau shared, in loc sa fie private deoarece valorile
+retinute de acestea trebuie sa fie unice pentru fiecare thread. Pentru bug3, eroarea la runtime este 
+cauzata de folosirea gresita a directivei #pragma omp barrier, care nu poate fi folosita in functia
+print_results, deoarece este in afara directivei sections. Pentru bug6, se poate observa ca sunt mai
+multe directive orfane, si in acest caz este neaparata nevoie de un scoping corect al variabilelor 
+si datelor. Eroarea in acest caz, se produce din cauza variabilei sum, care trebuie sa fie declarata
+ca variabila globala deoarece aceasta este variabila care se foloseste in reducerea paralela.
+
+

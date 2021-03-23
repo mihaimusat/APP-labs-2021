@@ -1,0 +1,11 @@
+Musat Mihai-Robert
+Grupa 341C1
+
+Pentru realizarea acestui laborator, am implementat modelul boss-worker,
+in care adun doi vectori element cu element, astfel ca pe pozitia i din
+vectorul rezultat se afla suma elementelor de pe pozitia i din cei doi
+vectori dati ca input. De asemenea, pentru al doilea task din acest
+laborator, am ales ca aplicatie a modelului work-crew, sa fac suma
+elementelor de pe prima coloana din cele doua matrici, element cu
+element, si asa cum se poate observa restul elementelor din matricea
+rezultat raman 0, asa cum le-am initializat.

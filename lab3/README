@@ -1,0 +1,83 @@
+Musat Mihai-Robert
+Grupa 341C1
+
+Pentru rezolvarea laboratorului 3, am implementat cerintele de la laboratorul 2,
+fara a rezolva ultimul exercitiu cu fisiere, asa cum ne-ai spus.
+
+Problema 1
+----------
+
+Mai intai, pentru a vedea efectul politicii dinamice de scheduling a threadurilor,
+am rulat programul de mai multe ori si am obtinut timpii de mai jos. Asa cum se poate
+vedea, pe laptopul meu, probabil din cauza caching-ului, nu se obtin diferente foarte
+mari de la o rulare la alta, asa cum ar fi fost de asteptat.
+
+Cod original
+============
+Number of threads = 4
+Execution time 0.0502546
+
+Number of threads = 4
+Execution time 0.0502117
+
+Number of threads = 4
+Execution time 0.0505046
+
+Pe de alta parte, atunci cand schimb politica de scheduling din dynamic in static,
+se observa ca timpii sunt mai stabili, si se observa o imbunatatire semnificativa
+de performanta, timpul fiind redus la jumatate fata de cazul anterior. Acest lucru
+se intampla deoarece politica de scheduling statica presupune impartirea iteratiilor
+for-ului respectiv pe threaduri, cat mai uniform posibil.
+
+Cod modificat
+=============
+Number of threads = 4
+Execution time 0.0236115
+
+Number of threads = 4
+Execution time 0.0231768
+
+Number of threads = 4
+Execution time 0.0231151
+
+
+Problema 2
+----------
+
+Pentru inceput, am testat performantele codului original
+din punct de vedere al timpului de executie, pentru a 
+avea o idee despre varianta seriala a algoritmului de calcul 
+al lui pi si am obtinut urmatorii timpi:
+
+Cod original
+============
+Execution time 0.14394
+The computed value of pi is 3.141593
+
+Execution time 0.132187
+The computed value of pi is 3.141593
+
+Execution time 0.131894
+The computed value of pi is 3.141593
+
+Desi timpii obtinuti de algoritmul initial sunt destul de buni, 
+se poate obtine o performanta si mai buna prin paralelizarea 
+codului anterior. Astfel, am paralelizat for-ul in care se calculeaza 
+integrala si am aplicat operatorul de reducere asupra variabilei sum,
+astfel incat atunci cand mai mult de un thread incearca sa isi puna
+rezultatul in variabila partjata sum, aceste rezultate sunt combinate.
+Dupa cum se observa, se reduce timpul cu mai mult de jumatate fata
+de varianta seriala a algoritmului.
+
+Cod modificat
+=============
+Execution time 0.0418364
+The computed value of pi is 3.141593
+
+Execution time 0.0433794
+The computed value of pi is 3.141593
+
+Execution time 0.0418449
+The computed value of pi is 3.141593
+
+

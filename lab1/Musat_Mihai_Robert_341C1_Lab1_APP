@@ -1,0 +1,211 @@
+Musat Mihai-Robert
+Grupa 341C1
+
+Ex 1
+----
+
+a) gcc -fopenmp -fdump-tree-all HelloWorld.c -o hello
+  ./hello
+
+Output
+====== 
+Outside of the pragma, the number of threads is 1
+
+Inside the pragma, the number of threads is 4
+
+Hello(0) world from process 0!
+Inside the pragma, the number of threads is 4
+
+Hello(3) world from process 3!
+Inside the pragma, the number of threads is 4
+
+Hello(2) world from process 2!
+Inside the pragma, the number of threads is 4
+
+Hello(1) world from process 1!
+
+b) cc -xopenmp -xO3 HelloWorld.c -o hello_solaris
+  ./hello_solaris
+
+Output
+======
+Outside of the pragma, the number of threads is 1
+
+Inside the pragma, the number of threads is 2
+
+Hello(0) world from process 0!
+Inside the pragma, the number of threads is 2
+
+Hello(1) world from process 1!
+
+c) cc -xO3 -xautopar -xloopinfo HelloWorld.c -o hello_perf
+   ./hello_perf
+
+Output
+======
+Outside of the pragma, the number of threads is 1
+
+Inside the pragma, the number of threads is 1
+
+Hello(0) world from process 0!
+
+
+Ex 2
+----
+
+a) gcc -fopenmp -fdump-tree-all pi.c -o pi
+   ./pi
+
+Output
+======
+pi.c: In function ‘main’:
+pi.c:33:3: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+   printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141593
+
+b) cc -xopenmp -xO3 pi.c -o pi_solaris
+   ./pi_solaris
+
+Output
+======
+"pi.c", line 33: warning: implicit function declaration: printf
+The computed value of pi is 3.141593
+
+c) cc -xO3 -xautopar -xloopinfo pi.c -o pi_perf
+   ./pi_perf
+
+Output
+======
+"pi.c", line 33: warning: implicit function declaration: printf
+"pi.c", line 23: not parallelized, unsafe dependence (sum)
+The computed value of pi is 3.141593
+
+
+Ex 3
+----
+
+a) gcc -fopenmp -fdump-tree-all pi2.c -o pi2
+   ./pi2
+
+Output
+======
+pi2.c: In function ‘main’:
+pi2.c:59:3: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+   printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141593
+
+b) cc -xopenmp -xO3 pi2.c -o pi2_solaris
+   ./pi2_solaris
+
+Output
+======
+"pi2.c", line 59: warning: implicit function declaration: printf
+The computed value of pi is 3.141593
+
+c) cc -xO3 -xautopar -xloopinfo pi2.c -o pi2_perf
+   ./pi2_perf
+
+Output
+======
+"pi2.c", line 59: warning: implicit function declaration: printf
+"pi2.c", line 47: not parallelized, unsafe dependence (sum)
+"pi2.c", line 56: not parallelized, unsafe dependence (pi)
+The computed value of pi is 1.570801
+
+
+Ex 4
+----
+
+a) gcc -fopenmp -fdump-tree-all pi3.c -o pi3
+   ./pi3
+
+Output
+======
+pi3.c: In function ‘main’:
+pi3.c:69:4: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+    printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141561
+
+b) cc -xopenmp -xO3 pi3.c -o pi3_solaris
+   ./pi3_solaris
+
+Output
+======
+pi3.c: In function ‘main’:
+pi3.c:69:4: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+    printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141561
+
+c) cc -xO3 -xautopar -xloopinfo pi3.c -o pi3_perf
+   ./pi3_perf
+
+Output
+======
+"pi3.c", line 69: warning: implicit function declaration: printf
+"pi3.c", line 56: not parallelized, unsafe dependence (sum)
+"pi3.c", line 66: not parallelized, unsafe dependence (pi)
+The computed value of pi is 3.141593
+
+
+Ex 5
+----
+
+a) gcc -fopenmp -fdump-tree-all pi4.c -o pi4
+   ./pi4
+
+Output
+======
+pi4.c: In function ‘main’:
+pi4.c:65:3: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+   printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141593
+
+b) cc -xopenmp -xO3 pi4.c -o pi4_solaris
+   ./pi4_solaris
+
+Output
+======
+"pi4.c", line 65: warning: implicit function declaration: printf
+The computed value of pi is 3.141593
+
+c) cc -xO3 -xautopar -xloopinfo pi4.c -o pi4_perf
+   ./pi4_perf
+
+Output
+======
+"pi4.c", line 65: warning: implicit function declaration: printf
+"pi4.c", line 45: not parallelized, unsafe dependence (sum)
+The computed value of pi is 1.570801
+
+
+Ex 6
+----
+
+a) gcc -fopenmp -fdump-tree-all pi5.c -o pi5
+   ./pi5
+
+Output
+======
+pi5.c: In function ‘main’:
+pi5.c:55:4: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+    printf( "The computed value of pi is %f\n", pi );
+The computed value of pi is 3.141593
+
+b) cc -xopenmp -xO3 pi5.c -o pi5_solaris
+   ./pi5_solaris
+
+Output
+======
+"pi5.c", line 55: warning: implicit function declaration: printf
+The computed value of pi is 3.141593
+
+c) cc -xO3 -xautopar -xloopinfo pi5.c -o pi5_perf
+   ./pi5_perf
+
+Output
+======
+"pi5.c", line 55: warning: implicit function declaration: printf
+"pi5.c", line 45: not parallelized, unsafe dependence (sum)
+The computed value of pi is 3.141593
+
+
