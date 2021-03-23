@@ -1,1 +1,3 @@
-# Parallel Arhitectures course - UPB 2021
+# APP-labs-2021
+
+Parallel Arhitectures Course - UPB 2021
